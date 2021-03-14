@@ -6,7 +6,13 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 	state: {
 		isNaviDisplayed: true,
-		currentTitle: ''
+		currentTitle: '',
+		currentUser: {
+			userName: '',
+			email: '',
+			userID: '0',
+			info: null
+		}
 	},
 	mutations: {
 		setNaviTitle(state, title?: string) {

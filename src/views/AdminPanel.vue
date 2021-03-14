@@ -1,12 +1,9 @@
 <template>
 	<div>
 		<Drawer />
-
 		<AppBar />
-
 		<v-main>
 			<router-view />
-
 			<v-footer>
 				{{ new Date().getFullYear() }}
 				<span class="ml-2">

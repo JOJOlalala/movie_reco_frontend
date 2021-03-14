@@ -17,6 +17,12 @@ module.exports = {
 	rules: {
 		'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-		'prettier/prettier': 'error'
+		'prettier/prettier': [
+			'warn',
+			{
+				// 这里的规则好像没有用
+				// semi: true // 行位是否使用分号，默认为true
+			}
+		]
 	}
 }

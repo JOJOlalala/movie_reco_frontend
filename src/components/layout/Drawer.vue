@@ -1,14 +1,9 @@
 <template>
-	<v-navigation-drawer
-		app
-		:mini-variant="$vuetify.breakpoint.lgAndDown"
-		expand-on-hover
-		v-model="drawerDisplay"
-	>
+	<v-navigation-drawer app expand-on-hover v-model="drawerDisplay">
 		<v-list-item two-line>
 			<v-list-item-content>
 				<v-list-item-title class="text-h5 font-weight-black">
-					Shock
+					{{ this.$store.state.currentUser.userName }}
 				</v-list-item-title>
 			</v-list-item-content>
 		</v-list-item>
@@ -42,7 +37,7 @@ import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class Drawer extends Vue {
-	drawerDisplay = false
+	drawerDisplay = true
 	drawer = [
 		{ title: 'Back to front', icon: 'mdi-arrow-left', to: '/' },
 		{
@@ -54,22 +49,19 @@ export default class Drawer extends Vue {
 		{
 			title: 'Dashboard',
 			icon: 'mdi-home',
-			to: '/dashboard/pages/dashboards/dashboard'
+			to: '/adminPanel/dashboard'
 		},
 		{
 			title: 'Profile',
 			icon: 'mdi-face-profile',
-			to: '/dashboard/pages/examples/profile'
+			to: '/'
 		},
 		{
 			title: 'Sign-in',
 			icon: 'mdi-login',
-			to: '/dashboard/pages/examples/sign-in'
+			to: '/'
 		}
 	]
-	mounted() {
-		this.drawerDisplay = this.$vuetify.breakpoint.lgAndDown ? false : true
-	}
 }
 </script>
 
