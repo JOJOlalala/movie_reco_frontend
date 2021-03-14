@@ -1,19 +1,16 @@
 <template>
-  <v-app>
-    <keep-alive>
-      <router-view />
-    </keep-alive>
-  </v-app>
+	<div id="app">
+		<v-app>
+			<keep-alive>
+				<router-view />
+			</keep-alive>
+		</v-app>
+	</div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue } from 'vue-property-decorator'
 
-export default Vue.extend({
-  name: 'App',
-
-  data: () => ({
-    //
-  })
-})
+@Component
+export default class App extends Vue {}
 </script>
