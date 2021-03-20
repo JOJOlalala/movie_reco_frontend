@@ -1,6 +1,7 @@
 <template>
 	<v-app-bar app flat color="white">
 		<v-toolbar-items class="d-flex align-center">
+			<v-app-bar-nav-icon @click.stop="$emit('toggleDrawer')"></v-app-bar-nav-icon>
 			<v-text-field
 				hide-details
 				flat
@@ -36,7 +37,7 @@
 				</v-avatar>
 
 				<div class="ml-1 subtitle-2">
-					Admin
+					{{ $store.state.currentUser.username }}
 				</div>
 			</div>
 		</v-btn>

@@ -1,7 +1,7 @@
 <template>
-	<div>
-		<Drawer />
-		<AppBar />
+	<v-app>
+		<Drawer :drawerDisplay="drawerDisplay" />
+		<AppBar @toggleDrawer="toggleDrawer" />
 		<v-main>
 			<router-view />
 			<v-footer>
@@ -15,7 +15,7 @@
 				</span>
 			</v-footer>
 		</v-main>
-	</div>
+	</v-app>
 </template>
 
 <script lang="ts">
@@ -29,7 +29,13 @@ import Drawer from '@/components/layout/Drawer.vue'
 		Drawer
 	}
 })
-export default class AdminPanel extends Vue {}
+export default class AdminPanel extends Vue {
+	drawerDisplay = false
+
+	toggleDrawer() {
+		this.drawerDisplay = !this.drawerDisplay
+	}
+}
 </script>
 
 <style lang="stylus"></style>

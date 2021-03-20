@@ -12,7 +12,8 @@ const global = {
 		if (num < (accumulator *= 1024)) return `${(num / accumulator) * 1024} MB`
 		if (num < (accumulator *= 1024)) return `${(num / accumulator) * 1024} GB`
 		return `> 1 TB`
-	}
+	},
+	avatarBaseUrl: 'http://127.0.0.1:8000'
 }
 
 export default global

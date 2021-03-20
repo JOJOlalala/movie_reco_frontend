@@ -2,6 +2,11 @@
 	<div class="pa-4">
 		<v-sheet color="transparent">
 			<v-row>
+				<div class="text-h5 font-weight-medium pt-3 px-5">
+					仪表盘
+				</div>
+			</v-row>
+			<v-row>
 				<v-col cols="12" md="6" lg="3" v-for="(item, i) in stats" :key="i">
 					<v-card class="py-6 px-10" outlined>
 						<div>
