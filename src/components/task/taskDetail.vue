@@ -10,6 +10,7 @@
 						label="视频格式"
 						v-model="currentSelect"
 						@change="toggleVideoForm"
+						:disabled="!task.isProcessed"
 					></v-select>
 					<v-spacer />
 					<videoPlayer
@@ -22,36 +23,45 @@
 		</v-list>
 		<v-divider></v-divider>
 		<v-list three-line subheader>
+			<v-subheader>人物提取</v-subheader>
+			<v-list-item>
+				<v-list-item-action> </v-list-item-action>
+			</v-list-item>
+		</v-list>
+		<v-divider></v-divider>
+		<v-list three-line subheader>
 			<v-subheader>识别演员</v-subheader>
 			<v-list-item>
 				<v-list-item-action>
 					<v-checkbox v-model="notifications"></v-checkbox>
 				</v-list-item-action>
 				<v-list-item-content>
-					<v-list-item-title>Notifications</v-list-item-title>
-					<v-list-item-subtitle
-						>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle
-					>
-				</v-list-item-content>
-			</v-list-item>
-			<v-list-item>
-				<v-list-item-action>
-					<v-checkbox v-model="sound"></v-checkbox>
-				</v-list-item-action>
-				<v-list-item-content>
-					<v-list-item-title>Sound</v-list-item-title>
-					<v-list-item-subtitle
-						>Auto-update apps at any time. Data charges may apply</v-list-item-subtitle
-					>
-				</v-list-item-content>
-			</v-list-item>
-			<v-list-item>
-				<v-list-item-action>
-					<v-checkbox v-model="widgets"></v-checkbox>
-				</v-list-item-action>
-				<v-list-item-content>
-					<v-list-item-title>Auto-add widgets</v-list-item-title>
-					<v-list-item-subtitle>Automatically add home screen widgets</v-list-item-subtitle>
+					<v-card class="mt-4 mx-auto" max-width="300">
+						<v-sheet
+							class="v-sheet--offset mx-auto"
+							color="cyan"
+							elevation="12"
+							max-width="calc(100% - 32px)"
+						>
+							<v-img src="https://picsum.photos/510/300?random" aspect-ratio="1.7" contain></v-img>
+						</v-sheet>
+
+						<v-card-text class="pt-0">
+							<div class="title font-weight-light mb-2">
+								User Registrations
+							</div>
+							<div class="subheading font-weight-light grey--text">
+								Last Campaign Performance
+							</div>
+							<v-divider class="my-2"></v-divider>
+							<v-icon class="mr-2" small>
+								mdi-clock
+							</v-icon>
+							<span class="caption grey--text font-weight-light"
+								>last registration 26 minutes ago</span
+							>
+						</v-card-text>
+					</v-card>
 				</v-list-item-content>
 			</v-list-item>
 		</v-list>
@@ -122,4 +132,9 @@ export default class TaskDetail extends Vue {
 }
 </script>
 
-<style></style>
+<style>
+.v-sheet--offset {
+	top: -24px;
+	position: relative;
+}
+</style>
