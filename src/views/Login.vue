@@ -119,7 +119,7 @@ export default class Login extends Vue {
 			else Snackbar.emitsError('很抱歉，因为某种原因，我们无法处理你的请求。请向我们报告这一问题。')
 		} else {
 			// Exception.handle(error)
-			Snackbar.emitsError('未知错误')
+			Snackbar.emitsError('服务器错误，可能是服务器尚未启动。')
 		}
 	}
 

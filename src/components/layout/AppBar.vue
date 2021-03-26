@@ -1,17 +1,15 @@
 <template>
-	<v-app-bar app flat color="white">
-		<v-toolbar-items class="d-flex align-center">
-			<v-app-bar-nav-icon @click.stop="$emit('toggleDrawer')"></v-app-bar-nav-icon>
-			<v-text-field
-				hide-details
-				flat
-				dense
-				outlined
-				solo
-				label="Search"
-				prepend-inner-icon="mdi-magnify"
-			/>
-		</v-toolbar-items>
+	<v-app-bar
+		app
+		fixed
+		color="#6A76AB"
+		dark
+		dense
+		:collapse="!collapseOnScroll"
+		:collapse-on-scroll="collapseOnScroll"
+	>
+		<v-app-bar-nav-icon @click.stop="$emit('toggleDrawer')"></v-app-bar-nav-icon>
+		<v-app-bar-title>管理</v-app-bar-title>
 
 		<v-spacer />
 
@@ -27,20 +25,16 @@
 			</v-icon>
 		</v-btn>
 
-		<v-btn text>
-			<div class="d-flex align-center">
-				<v-avatar size="32">
-					<img
-						src="https://cdn.pixabay.com/photo/2020/11/08/10/25/dog-5723334_1280.jpg"
-						alt="avatar"
-					/>
-				</v-avatar>
-
-				<div class="ml-1 subtitle-2">
-					{{ $store.state.currentUser.username }}
-				</div>
-			</div>
+		<v-btn icon>
+			<v-icon>mdi-dots-vertical</v-icon>
 		</v-btn>
+		<!-- <template v-slot:extension>
+			<v-tabs align-with-title>
+				<v-tab>Tab 1</v-tab>
+				<v-tab>Tab 2</v-tab>
+				<v-tab>Tab 3</v-tab>
+			</v-tabs>
+		</template> -->
 	</v-app-bar>
 </template>
 
@@ -49,6 +43,7 @@ import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class AppBar extends Vue {
+	collapseOnScroll = true
 	drawer = [
 		{ title: 'Back to front', icon: 'mdi-arrow-left', to: '/' },
 		{

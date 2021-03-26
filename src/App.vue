@@ -12,13 +12,21 @@
 				:color="snackbarColor"
 				bottom
 				vertical
-				:timeout="9000"
+				:timeout="5000"
 				id="appSnackbar"
 			>
 				{{ snackbarContent }}
-				<v-btn color="white" text @click.stop="collapseSnackbar" style="font-weight: 800;">
-					好
-				</v-btn>
+				<template v-slot:action="{ attrs }">
+					<v-btn
+						color="white"
+						v-bind="attrs"
+						text
+						@click.stop="collapseSnackbar"
+						style="font-weight: 800;"
+					>
+						好
+					</v-btn>
+				</template>
 			</v-snackbar>
 		</v-app>
 	</div>

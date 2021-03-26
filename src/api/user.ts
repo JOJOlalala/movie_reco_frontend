@@ -11,7 +11,6 @@ export interface FormUserLogin {
 	remember: 'yes' | 'no'
 }
 
-// TODO
 // the original buaa.top using cookie set by backend
 // so you can directly enter using getProgile method
 // however this time I use token to verify user
@@ -62,9 +61,13 @@ export async function updateUserProfileInStore(): Promise<any> {
 	})
 }
 
-export function getLoginStatus() {
+export function updateUserProfile(data: FormData) {
 	return axios({
-		method: 'GET',
-		url: `/system/time`
+		method: 'POST',
+		url: `user/update_user/`,
+		headers: {
+			Authorization: localStorage.getItem('token')
+		},
+		data: data
 	})
 }

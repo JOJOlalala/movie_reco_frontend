@@ -4,16 +4,6 @@
 		<AppBar @toggleDrawer="toggleDrawer" />
 		<v-main>
 			<router-view />
-			<v-footer>
-				{{ new Date().getFullYear() }}
-				<span class="ml-2">
-					<strong
-						><a href="https://heroui.net" target="_blank" rel="noopener noreferrer"
-							>HeroUI</a
-						></strong
-					>
-				</span>
-			</v-footer>
 		</v-main>
 	</v-app>
 </template>

@@ -1,5 +1,5 @@
 <template>
-	<v-navigation-drawer app v-model="display">
+	<v-navigation-drawer app v-model="display" color="grey lighten-5">
 		<v-list-item two-line>
 			<v-list-item-content>
 				<v-avatar size="70">
