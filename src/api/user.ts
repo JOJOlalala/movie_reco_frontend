@@ -1,8 +1,9 @@
 import axios from 'axios'
 
-import { QS } from './global'
+import { ICallbackFn, QS } from './global'
 import store from '@/store'
 import global from './global'
+import Exception from './exceptions'
 
 export interface FormUserLogin {
 	email?: string
@@ -17,15 +18,48 @@ export interface FormUserLogin {
 // so you will get a token payload, don't forget to
 // add that token to your headers in next request of
 // get your user profile
-export function loginAs(user: FormUserLogin) {
-	return axios({
-		method: 'POST',
-		url: `/user/login/`,
-		data: QS(user)
-	})
+export async function loginWithAccount(
+	user: FormUserLogin,
+	successFn: ICallbackFn,
+	errorFn: ICallbackFn = Exception.handle,
+	finalFn: ICallbackFn = () => null
+) {
+	try {
+		const res = await axios({
+			method: 'POST',
+			url: `/user/login/`,
+			data: QS(user)
+		})
+		successFn(res)
+	} catch (err) {
+		errorFn(err)
+	} finally {
+		finalFn()
+	}
+}
+
+export async function register(
+	user: FormData,
+	successFn: ICallbackFn,
+	errorFn: ICallbackFn = Exception.handle,
+	finalFn: ICallbackFn = () => null
+) {
+	try {
+		const res = await axios({
+			method: 'POST',
+			url: `/user/register/`,
+			data: user
+		})
+		successFn(res)
+	} catch (err) {
+		errorFn(err)
+	} finally {
+		finalFn()
+	}
 }
 
 // wrap the request and handle it in updateUserProfileInStore function
+// This is a traditionally shit mountain, never touch it once it get work
 export function getProfile() {
 	return axios({
 		method: 'GET',
@@ -46,7 +80,7 @@ export async function updateUserProfileInStore(): Promise<any> {
 							const i = payload.userProfileData
 							return {
 								bio: i.bio,
-								avatar: global.avatarBaseUrl + i.avatar
+								avatar: global.imgUrl + i.avatar
 							}
 						} else return null
 					})()
@@ -61,13 +95,22 @@ export async function updateUserProfileInStore(): Promise<any> {
 	})
 }
 
-export function updateUserProfile(data: FormData) {
-	return axios({
-		method: 'POST',
-		url: `user/update_user/`,
-		headers: {
-			Authorization: localStorage.getItem('token')
-		},
-		data: data
-	})
+export async function updateUserProfile(
+	data: FormData,
+	successFn: ICallbackFn,
+	errorFn: ICallbackFn = Exception.handle
+) {
+	try {
+		const res = await axios({
+			method: 'POST',
+			url: `user/update_user/`,
+			headers: {
+				Authorization: localStorage.getItem('token')
+			},
+			data: data
+		})
+		successFn(res)
+	} catch (err) {
+		errorFn(err)
+	}
 }

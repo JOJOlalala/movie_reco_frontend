@@ -58,6 +58,15 @@ export default new Vuex.Store({
 		) {
 			state.currentUser.userName = user.username
 			state.currentUser.profile = user.profile
+		},
+		resetUser(state) {
+			localStorage.setItem('isLogged', 'false')
+			localStorage.setItem('token', '')
+			state.currentUser.userName = ''
+			state.currentUser.profile = {
+				bio: '',
+				avatar: ''
+			}
 		}
 	},
 	actions: {},

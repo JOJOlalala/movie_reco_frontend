@@ -1,6 +1,20 @@
 <template>
 	<div>
-		<v-dialog v-model="detailDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+		<v-dialog v-model="loadingDialog" persistent width="400">
+			<v-card color="primary" dark>
+				<v-card-text>
+					正在完成操作… 这需要一点时间。
+					<v-progress-linear indeterminate color="white" class="mb-0" />
+				</v-card-text>
+			</v-card>
+		</v-dialog>
+		<v-dialog
+			v-model="detailDialog"
+			fullscreen
+			hide-overlay
+			transition="dialog-bottom-transition"
+			persistent
+		>
 			<v-toolbar dark color="primary" dense fixed>
 				<v-btn icon dark @click="detailDialog = false">
 					<v-icon>mdi-keyboard-return</v-icon>
@@ -131,6 +145,7 @@ export default class TaskAdmin extends Vue {
 	taskDeleteDialog = false
 	taskCreateDialog = false
 	tableLoading = true
+	loadingDialog = false
 	headers = [
 		{
 			text: '名称',
@@ -158,13 +173,13 @@ export default class TaskAdmin extends Vue {
 		taskName: ''
 	}
 	rules = {
-		taskFileRule: (value: any) =>
+		taskFileRule: (value: File) =>
 			!value || value.size < 50000000 || 'Avatar size should be less than 50 MB!',
-		taskNameCounter: (value: any) => {
-			if (value && value.length) return value.length <= 20 || 'Max 20 characters'
-			else return false
+		taskNameCounter: (value: string) => {
+			if (value && value.length) return value.length <= 20 || '最大20个字符'
+			else return false || '任务名不能为空'
 		},
-		required: (value: any) => !!value || 'Required.'
+		required: (value: any) => !!value || '任务名不能为空'
 	}
 
 	get formTitle() {
@@ -175,14 +190,21 @@ export default class TaskAdmin extends Vue {
 		this.initialize()
 	}
 
-	async initialize() {
+	initialize() {
+		this.loadingDialog = true
 		this.tableLoading = true
 		// send get_current_task requset
-		const res: any = await Task.getCurrentTasks()
-		if (!res.data.error) {
-			this.tasks = res.data.data.userTasks
-		}
-		this.tableLoading = false
+		Task.getCurrentTasks(res => {
+			if (res && res.data && res.data.data) {
+				this.tasks = res.data.data.userTasks
+			}
+			for (const task of this.tasks) {
+				const date = new Date(task.createTime)
+				task.createTime = date.toLocaleDateString() + date.toLocaleTimeString()
+			}
+			this.tableLoading = false
+			this.loadingDialog = false
+		})
 	}
 
 	editItem(item: any) {
@@ -198,9 +220,11 @@ export default class TaskAdmin extends Vue {
 	}
 
 	confirmTaskDelete() {
+		this.loadingDialog = true
 		Task.deleteVideo(this.tasks[this.editedIndex].id, res => {
 			this.tasks.splice(this.editedIndex, 1)
 			this.cancelTaskDelete()
+			this.loadingDialog = false
 		})
 	}
 
@@ -221,24 +245,33 @@ export default class TaskAdmin extends Vue {
 		// 任务创建对话框确认上传
 		const formData = new FormData()
 		const file = this.taskFile
-		if (this.editedItem.taskName.length == 0) {
-			Snackbar.emitsWarning('任务名不能为空')
+		if (this.rules.required(this.editedItem.taskName) === true) {
+			if (this.rules.taskNameCounter(this.editedItem.taskName) === true) {
+				if (this.rules.taskFileRule(file) === true) {
+					null
+				} else {
+					Snackbar.emitsWarning('视频内容不能为空，并且不能超过50M。')
+					return
+				}
+			} else {
+				Snackbar.emitsWarning('任务名不能超过20个字符。')
+				return
+			}
+		} else {
+			Snackbar.emitsWarning('任务名不能为空。')
 			return
 		}
-		if (file === null) {
-			Snackbar.emitsWarning('视频内容不能为空')
-			return
-		}
-		if (file.size > 50000000) {
-			// 大于40m
-			Snackbar.emitsWarning('文件不能超过40M。')
-			return
-		}
+		this.loadingDialog = true
 		formData.append('originalVideo', file)
 		formData.append('taskName', this.editedItem.taskName)
 		Task.uploadVideo(formData, res => {
 			this.initialize()
+			this.editedItem = {
+				taskName: ''
+			}
+			this.taskFile = null
 			this.taskCreateDialog = false
+			this.loadingDialog = false
 		})
 	}
 }

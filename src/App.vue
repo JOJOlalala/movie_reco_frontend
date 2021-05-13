@@ -12,7 +12,7 @@
 				:color="snackbarColor"
 				bottom
 				vertical
-				:timeout="5000"
+				:timeout="4000"
 				id="appSnackbar"
 			>
 				{{ snackbarContent }}

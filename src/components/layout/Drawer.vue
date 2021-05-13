@@ -30,7 +30,7 @@
 					<v-list-item-title>{{ item.title }}</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
-			<v-list-item exact to="log" class="listItem">
+			<v-list-item exact to="/login" @click="handleLogout" class="listItem">
 				<v-list-item-icon>
 					<v-icon color="yellow darken-3">mdi-logout-variant</v-icon>
 				</v-list-item-icon>
@@ -72,6 +72,10 @@ export default class Drawer extends Vue {
 			to: '/adminPanel/userProfile'
 		}
 	]
+
+	handleLogout() {
+		this.$store.commit('resetUser')
+	}
 
 	@Watch('drawerDisplay')
 	toggleDisplay(oldVal: string, newVal: string) {

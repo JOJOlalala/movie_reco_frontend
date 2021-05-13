@@ -23,6 +23,12 @@ const exceptionHandlers: any = {
 	},
 	200: redirectTo('403'),
 	500: redirectTo('404'),
+	'0101': () => {
+		Snackbar.emitsError('没有找到相应的用户。')
+	},
+	'0105': () => {
+		Snackbar.emitsError('该用户名已经被注册了。')
+	},
 	'0204': () => {
 		Snackbar.emitsError('Are you OK?')
 	}

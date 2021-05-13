@@ -58,14 +58,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { User } from '@/api'
+import { Snackbar, User } from '@/api'
 
 @Component
 export default class UserProfile extends Vue {
 	chart = false
 	avatarImg: any = null
 	avatarRules = [
-		(value: any) => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!'
+		(value: File) => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!'
 	]
 	oldBio =
 		'The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through.'
@@ -94,17 +94,21 @@ export default class UserProfile extends Vue {
 		// for (const pair of formData.entries()) {
 		// 	console.log(pair[0] + ', ' + pair[1])
 		// }
-		await User.updateUserProfile(formData)
-		await User.updateUserProfileInStore()
-		this.initialize()
+		User.updateUserProfile(formData, async res => {
+			Snackbar.emitsSuccess('修改用户简介成功。')
+			await User.updateUserProfileInStore()
+			this.initialize()
+		})
 	}
 
 	async uploadBio() {
 		const formData = new FormData()
 		formData.append('bio', this.newBio)
-		await User.updateUserProfile(formData)
-		await User.updateUserProfileInStore()
-		this.initialize()
+		User.updateUserProfile(formData, async res => {
+			Snackbar.emitsSuccess('修改用户头像成功。')
+			await User.updateUserProfileInStore()
+			this.initialize()
+		})
 	}
 }
 </script>
